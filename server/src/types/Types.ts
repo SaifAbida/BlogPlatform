@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export type UserDocumentType = {
-  id: mongoose.Schema.Types.ObjectId;
+  _id: mongoose.Schema.Types.ObjectId;
   username: string;
   email: string;
   password: string;
@@ -16,8 +16,19 @@ export type CreateUserType = {
   password: string;
 };
 
+export type UpdateUserType = {
+  username: string;
+  email: string;
+};
+
+export type resetPasswordType = {
+  currentPassword: string;
+  newPassword: string;
+  confirmPassword: string;
+};
+
 export type PostDocumentType = {
-  id?: mongoose.Schema.Types.ObjectId;
+  _id: mongoose.Schema.Types.ObjectId;
   image?: string;
   content: string;
   created_at?: Date;
@@ -26,4 +37,9 @@ export type PostDocumentType = {
 export type CreatePostType = {
   image?: string;
   content: string;
+};
+
+export type credentialsType = {
+  username: string;
+  password: string;
 };
