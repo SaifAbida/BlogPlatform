@@ -29,6 +29,7 @@ export type resetPasswordType = {
 
 export type PostDocumentType = {
   _id: mongoose.Schema.Types.ObjectId;
+  creator_id: mongoose.Schema.Types.ObjectId;
   image?: string;
   content: string;
   created_at?: Date;

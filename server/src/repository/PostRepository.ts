@@ -12,7 +12,7 @@ export class PostRepository implements PostInterface {
     post: CreatePostType
   ): Promise<PostDocumentType> {
     const creator_id = new mongoose.Types.ObjectId(userID);
-    const newPost = new this.database({ creator_id, post });
+    const newPost = new this.database({ creator_id, ...post });
     return (await newPost.save()) as unknown as PostDocumentType;
   }
   async findAll(): Promise<PostDocumentType[]> {
@@ -26,12 +26,12 @@ export class PostRepository implements PostInterface {
   async findOne(id: string): Promise<PostDocumentType | null> {
     return await this.database.findById(id);
   }
-  
+
   async update(
-    userID: string,
+    postID: string,
     post: CreatePostType
   ): Promise<PostDocumentType> {
-    return await this.database.findByIdAndUpdate(userID, post, { new: true });
+    return await this.database.findByIdAndUpdate(postID, post, { new: true });
   }
   async delete(id: string): Promise<boolean> {
     return await this.database.findByIdAndDelete(id);
