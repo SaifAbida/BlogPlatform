@@ -15,9 +15,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Password is required"],
   },
-  posts: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: "Posts" }],
-  },
+  posts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Posts" }],
 });
 
 export const User = mongoose.model("Users", userSchema);

@@ -4,12 +4,13 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { container } from "./containers/container";
 import { UserControllers } from "./controllers/UserControllers";
+import { PostControllers } from "./controllers/PostControllers";
 
 dotenv.config();
 
 useContainer(container);
 const app = createExpressServer({
-  controllers: [UserControllers],
+  controllers: [UserControllers, PostControllers],
   cors: {
     origin: "*",
     credentials: true,

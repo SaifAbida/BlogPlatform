@@ -2,18 +2,24 @@ import { PostRepository } from "../repository/PostRepository";
 import { inject, injectable } from "inversify";
 import { CreatePostType } from "../types/Types";
 import { NotFoundError, UnauthorizedError } from "routing-controllers";
-import { ObjectIDServices } from "./ObjectIDservices";
+import { UserRepository } from "../repository/UserRepository";
 
 @injectable()
 export class PostServices {
   constructor(
     @inject(PostRepository) private readonly postRepository: PostRepository,
-    @inject(ObjectIDServices)
-    private readonly objectIDServices: ObjectIDServices
+    @inject(UserRepository) private readonly userRepository: UserRepository
   ) {}
 
   async createPost(userID: string, post: CreatePostType) {
-    return await this.postRepository.create(userID, post);
+    const user = await this.userRepository.findOne(userID);
+    if (!user) {
+      throw new NotFoundError("User not found");
+    }
+    const newPost = await this.postRepository.create(userID, post);
+    user.posts = [...new Set([...user.posts, newPost._id])];
+    await this.userRepository.save(user);
+    return newPost;
   }
 
   async getPosts() {
@@ -37,9 +43,8 @@ export class PostServices {
     if (!updatePost) {
       throw new NotFoundError("Post not found");
     }
-    const userObjectID = this.objectIDServices.convertToObjID(userID);
-    if (userObjectID !== updatePost.creator_id) {
-      throw new UnauthorizedError("This post is not related to this user");
+    if (userID !== updatePost.creator_id.toString()) {
+      throw new UnauthorizedError("Your are not authorized");
     }
     return await this.postRepository.update(postID, post);
   }
@@ -49,10 +54,15 @@ export class PostServices {
     if (!deletePost) {
       throw new NotFoundError("Post not found");
     }
-    const userObjectID = this.objectIDServices.convertToObjID(userID);
-    if (userObjectID !== deletePost.creator_id) {
-      throw new UnauthorizedError("This post is not related to this user");
+    const user = await this.userRepository.findOne(userID);
+
+    if (user._id.toString() !== deletePost.creator_id.toString()) {
+      throw new UnauthorizedError("Your are not authorized");
     }
+    user.posts = user.posts.filter(
+      (postID) => postID.toString() !== deletePost._id.toString()
+    );
+    await this.userRepository.save(user);
     return await this.postRepository.delete(postID);
   }
 }

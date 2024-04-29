@@ -5,9 +5,7 @@ export type UserDocumentType = {
   username: string;
   email: string;
   password: string;
-  posts?: {
-    type: [{ type: mongoose.Schema.Types.ObjectId; ref: "Posts" }];
-  };
+  posts?: mongoose.Schema.Types.ObjectId[];
 };
 
 export type CreateUserType = {
@@ -29,7 +27,7 @@ export type resetPasswordType = {
 
 export type PostDocumentType = {
   _id: mongoose.Schema.Types.ObjectId;
-  creator_id: mongoose.Schema.Types.ObjectId;
+  readonly creator_id: mongoose.Schema.Types.ObjectId;
   image?: string;
   content: string;
   created_at?: Date;
