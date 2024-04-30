@@ -9,10 +9,11 @@ export class PostRepository implements PostInterface {
   private readonly database = Post;
   async create(
     userID: string,
+    creatorName: string,
     post: CreatePostType
   ): Promise<PostDocumentType> {
     const creator_id = new mongoose.Types.ObjectId(userID);
-    const newPost = new this.database({ creator_id, ...post });
+    const newPost = new this.database({ creator_id, creatorName, ...post });
     return (await newPost.save()) as unknown as PostDocumentType;
   }
   async findAll(): Promise<PostDocumentType[]> {

@@ -28,6 +28,7 @@ export type resetPasswordType = {
 export type PostDocumentType = {
   _id: mongoose.Schema.Types.ObjectId;
   readonly creator_id: mongoose.Schema.Types.ObjectId;
+  readonly creatorName: string;
   image?: string;
   content: string;
   created_at?: Date;

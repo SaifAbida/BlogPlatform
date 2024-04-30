@@ -36,6 +36,7 @@ export class PostControllers {
   }
 
   @Get("/all")
+  @UseBefore(VerifyLogin)
   async getAllPosts(@Req() _: Request, @Res() res: Response) {
     const posts = await this.postServices.getPosts();
     return res.status(200).json(posts);

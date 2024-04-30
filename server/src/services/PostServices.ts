@@ -16,7 +16,8 @@ export class PostServices {
     if (!user) {
       throw new NotFoundError("User not found");
     }
-    const newPost = await this.postRepository.create(userID, post);
+    const creatorName = user.username;
+    const newPost = await this.postRepository.create(userID, creatorName, post);
     user.posts = [...new Set([...user.posts, newPost._id])];
     await this.userRepository.save(user);
     return newPost;
