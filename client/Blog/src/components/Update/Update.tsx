@@ -1,18 +1,24 @@
+import { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { registerType } from "../../Utils/Types";
-import "./Register.css";
-import { useState } from "react";
+import { UpdateUserType } from "../../Utils/Types";
 import axios, { AxiosResponse } from "axios";
 import Swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
+import "./Update.css";
 
-const Register = () => {
-  const navigate = useNavigate();
-  const [input, setInput] = useState<registerType>({
+const formStyle = {
+  width: "60%",
+  margin: "50px auto",
+  padding: "30px",
+  border: "2px solid #3b3b3b6c",
+  borderRadius: "5px",
+};
+
+const Update = () => {
+  const [input, setInput] = useState<UpdateUserType>({
     username: "",
     email: "",
-    password: "",
   });
+  const token = localStorage.getItem("token");
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
@@ -25,16 +31,17 @@ const Register = () => {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     axios
-      .post("http://127.0.0.1:8080/user/register", input)
+      .patch("http://127.0.0.1:8080/user/update", input, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((_: AxiosResponse) => {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: "Account created successfully",
+          title: "User updated successfully",
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/login");
       })
       .catch((_) => {
         Swal.fire({
@@ -47,13 +54,21 @@ const Register = () => {
       });
   }
 
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8080/user/", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((res: AxiosResponse) => {
+        const { username, email } = res.data;
+        setInput({ username, email });
+      });
+  }, []);
+
   return (
-    <div className="registerContainer">
-      <Form
-        style={{ width: "40%", margin: "160px auto" }}
-        onSubmit={handleSubmit}
-      >
-        <h1 className="registerTitle">Register</h1>
+    <div className="container-md">
+      <Form onSubmit={handleSubmit} style={formStyle}>
+        <h1 className="updateHeader">Update</h1>
         <Form.Label htmlFor="inputUsername5" style={{ marginTop: "10px" }}>
           Username
         </Form.Label>
@@ -61,6 +76,7 @@ const Register = () => {
           type="username"
           id="inputUsername5"
           name="username"
+          value={input.username}
           onChange={handleChange}
           autoComplete="username"
           required
@@ -73,17 +89,7 @@ const Register = () => {
           id="inputEmail5"
           name="email"
           autoComplete="email"
-          onChange={handleChange}
-          required
-        />
-        <Form.Label htmlFor="inputPassword5" style={{ marginTop: "10px" }}>
-          Password
-        </Form.Label>
-        <Form.Control
-          type="password"
-          id="inputPassword5"
-          name="password"
-          autoComplete="current-password"
+          value={input.email}
           onChange={handleChange}
           required
         />
@@ -92,11 +98,11 @@ const Register = () => {
           style={{ marginTop: "30px" }}
           type="submit"
         >
-          Register
+          Update
         </Button>
       </Form>
     </div>
   );
 };
 
-export default Register;
+export default Update;

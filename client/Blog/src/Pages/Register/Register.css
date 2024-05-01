@@ -1,11 +1,11 @@
 .registerTitle {
-    text-align: center;
-    margin-bottom: 20px;
-    font-weight: bold;
-    color: #3b3b3b;
-    font-size: 50px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #3b3b3b;
+  font-size: 50px;
 }
 
 .registerContainer {
-    height: 63vh;
+  height: 63vh;
 }

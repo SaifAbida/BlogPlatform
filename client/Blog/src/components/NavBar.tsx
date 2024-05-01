@@ -33,7 +33,7 @@ function BasicExample() {
                   Home
                 </Link>
                 <Link to="/profile" style={LinkStyle} className="nav-link">
-                  Profile
+                  My Posts
                 </Link>
 
                 <NavDropdown title="Dropdown" id="basic-nav-dropdown">
