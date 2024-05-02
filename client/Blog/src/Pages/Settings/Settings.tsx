@@ -22,30 +22,29 @@ const Settings = () => {
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3b3b3b",
       confirmButtonText: "Yes, delete it!",
-    })
-      .then((result) => {
-        if (result.isConfirmed) {
-          axios
-            .delete("http://127.0.0.1:8080/user/", {
-              headers: { Authorization: `Bearer ${token}` },
-            })
-            .then((res: AxiosResponse) => {
-              Swal.fire({
-                title: "Deleted!",
-                text: res.data.message,
-                icon: "success",
-              });
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete("http://127.0.0.1:8080/user/", {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then((res: AxiosResponse) => {
+            Swal.fire({
+              title: "Deleted!",
+              text: res.data.message,
+              icon: "success",
             });
-          navigate("/login");
-        }
-      })
-      .catch((_) => {
-        Swal.fire({
-          title: "Deleted!",
-          text: "Opps! something went wrong",
-          icon: "success",
-        });
-      });
+            navigate("/login");
+          })
+          .catch((_) => {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Opps! something went wrong",
+              icon: "success",
+            });
+          });
+      }
+    });
   }
 
   return (

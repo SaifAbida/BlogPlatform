@@ -1,5 +1,5 @@
 .profile-header {
-  margin: 50px;
+  margin: 55px;
   font-weight: bold;
 }
 
@@ -16,4 +16,8 @@
   color: #3b3b3b;
   font-weight: bold;
   margin-top: 200px;
+}
+
+.profilePage {
+  min-height: 74vh;
 }

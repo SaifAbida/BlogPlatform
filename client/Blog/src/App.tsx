@@ -10,6 +10,7 @@ import AuthRoutes from "./Utils/AuthRoutes";
 import PrivateRoutes from "./Utils/PrivateRoutes";
 import RoutePage from "./Pages/RoutePage/RoutePage";
 import CreatePost from "./Pages/CreatePost/CreatePost";
+import UpdatePost from "./Pages/UpdatePost/UpdatePost";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/create" element={<CreatePost />} />
+          <Route path="/update/:id" element={<UpdatePost />} />
         </Route>
       </Routes>
       <Footer />

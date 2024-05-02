@@ -2,3 +2,8 @@
     margin: 40px;
 }
 
+.PostHeaderDiv {
+    display: flex;
+    justify-content: space-between;
+}
+

@@ -1,4 +1,21 @@
 .homeHeader {
-  margin: 50px;
+  margin: 56px;
+  font-weight: bold;
+}
+
+.homePage {
+  min-height: 74vh;
+}
+
+.emptyHomePage {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.emptyHomeHeader {
+  font-size: 60px;
+  color: #3b3b3b;
   font-weight: bold;
 }

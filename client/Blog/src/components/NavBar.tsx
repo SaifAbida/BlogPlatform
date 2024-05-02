@@ -37,6 +37,13 @@ function BasicExample() {
                 </Link>
 
                 <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+                <Link
+                    to="/create"
+                    style={LinkStyle}
+                    className="dropdown-item"
+                  >
+                    Create new post
+                  </Link>
                   <Link
                     to="/settings"
                     style={LinkStyle}

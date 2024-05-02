@@ -1,0 +1,11 @@
+.createPostHeader {
+  margin-top: 150px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  color: #3b3b3b;
+  font-size: 40px;
+}
+
+.createPost {
+  height: 605px;
+}
