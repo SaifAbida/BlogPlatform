@@ -3,6 +3,7 @@ import { inject, injectable } from "inversify";
 import { CreatePostType } from "../types/Types";
 import { NotFoundError, UnauthorizedError } from "routing-controllers";
 import { UserRepository } from "../repository/UserRepository";
+import fs from "fs";
 
 @injectable()
 export class PostServices {
@@ -60,6 +61,10 @@ export class PostServices {
     if (user._id.toString() !== deletePost.creator_id.toString()) {
       throw new UnauthorizedError("Your are not authorized");
     }
+    if (deletePost.image) {
+      fs.unlinkSync(`./src/uploads/${deletePost.image}`);
+    }
+
     user.posts = user.posts.filter(
       (postID) => postID.toString() !== deletePost._id.toString()
     );

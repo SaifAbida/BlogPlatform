@@ -16,6 +16,22 @@ import {
 import { AuthentificatedRequest } from "../AuthentificatedRequest/AuthentificatedRequest";
 import { Response, Request } from "express";
 import { PostValidators } from "../validators/postValidators";
+import multer from "multer";
+
+//STORING IMAGES IN THE DATABASE (MIDDELWARE) :
+let filename = "";
+const myStorage = multer.diskStorage({
+  destination: "./src/uploads",
+  filename: (_, file, redirect) => {
+    let date = Date.now();
+    let fl = `${date}.${file.mimetype.split("/")[1]}`;
+    redirect(null, fl);
+    filename = fl;
+  },
+});
+const upload = multer({ storage: myStorage });
+
+//////////////////////////////////////////////////
 
 @JsonController("/post")
 @injectable()
@@ -26,12 +42,18 @@ export class PostControllers {
 
   @Post("/")
   @UseBefore(VerifyLogin)
+  @UseBefore(upload.any())
   async createPost(
     @Req() req: AuthentificatedRequest,
-    @Body() post: PostValidators,
+    @Body() { image, content }: PostValidators,
     @Res() res: Response
   ) {
-    const newPost = await this.postServices.createPost(req.user.id, post);
+    image = filename;
+    const newPost = await this.postServices.createPost(req.user.id, {
+      image,
+      content,
+    });
+    filename = "";
     return res.status(200).json(newPost);
   }
 
