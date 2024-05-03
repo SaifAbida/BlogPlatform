@@ -5,7 +5,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import Swal from "sweetalert2";
 import axios, { AxiosResponse } from "axios";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const cardTitleStyle = {
@@ -71,23 +70,16 @@ function Post({
             <Card.Title style={cardTitleStyle}>{creatorName}</Card.Title>
             {user_id === creator_id && (
               <div>
-                <IconButton
-                  aria-label="delete"
-                  size="large"
-                  style={{ padding: "0 10px" }}
+                <Link
+                  to={`/update/${id}`}
+                  style={{ color: "black", marginRight: "20px" }}
                 >
-                  <Link to={`/update/${id}`} style={{ color: "gray" }}>
-                    <EditIcon />
-                  </Link>
-                </IconButton>
-                <IconButton
-                  style={{ padding: "0 10px" }}
-                  aria-label="delete"
-                  size="large"
+                  <EditIcon />
+                </Link>
+                <DeleteIcon
                   onClick={handleClick}
-                >
-                  <DeleteIcon />
-                </IconButton>
+                  style={{ cursor: "pointer" }}
+                />
               </div>
             )}
           </div>

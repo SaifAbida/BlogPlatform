@@ -47,7 +47,7 @@ const Update = () => {
         Swal.fire({
           position: "center",
           icon: "error",
-          title: "Bad Request",
+          title: "Invalid input",
           showConfirmButton: false,
           timer: 1500,
         });

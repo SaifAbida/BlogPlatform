@@ -42,7 +42,7 @@ const CreatePost = () => {
         Swal.fire({
           position: "center",
           icon: "error",
-          title: "Oops! something went wrong",
+          title: "Invalid input",
           showConfirmButton: false,
           timer: 1500,
         });
@@ -60,7 +60,6 @@ const CreatePost = () => {
             rows={5}
             style={{ width: "70%" }}
             onChange={(e) => setContent(e.target.value)}
-            required
           />
           <input type="file" onChange={handleChangeImage} />
         </Form.Group>
