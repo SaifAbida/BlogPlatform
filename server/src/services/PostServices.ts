@@ -40,7 +40,11 @@ export class PostServices {
     return post;
   }
 
-  async updatePost(userID: string, postID: string, post: CreatePostType) {
+  async updatePost(
+    userID: string,
+    postID: string,
+    { image, content }: CreatePostType
+  ) {
     const updatePost = await this.postRepository.findOne(postID);
     if (!updatePost) {
       throw new NotFoundError("Post not found");
@@ -48,7 +52,13 @@ export class PostServices {
     if (userID !== updatePost.creator_id.toString()) {
       throw new UnauthorizedError("Your are not authorized");
     }
-    return await this.postRepository.update(postID, post);
+    if (image) {
+      if (updatePost.image) {
+        fs.unlinkSync(`./src/uploads/${updatePost.image}`);
+      }
+      return await this.postRepository.update(postID, { image, content });
+    }
+    return await this.postRepository.update(postID, { content });
   }
 
   async deletePost(userID: string, postID: string) {

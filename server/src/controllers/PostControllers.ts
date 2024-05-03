@@ -19,6 +19,7 @@ import { PostValidators } from "../validators/postValidators";
 import multer from "multer";
 
 //STORING IMAGES IN THE DATABASE (MIDDELWARE) :
+
 let filename = "";
 const myStorage = multer.diskStorage({
   destination: "./src/uploads",
@@ -79,17 +80,19 @@ export class PostControllers {
 
   @Patch("/:id")
   @UseBefore(VerifyLogin)
+  @UseBefore(upload.any())
   async updatePost(
     @Param("id") id: string,
     @Req() req: AuthentificatedRequest,
-    @Body() post: PostValidators,
+    @Body() { image, content }: PostValidators,
     @Res() res: Response
   ) {
-    const updatedPost = await this.postServices.updatePost(
-      req.user.id,
-      id,
-      post
-    );
+    image = filename;
+    const updatedPost = await this.postServices.updatePost(req.user.id, id, {
+      image,
+      content,
+    });
+    filename = "";
     return res.status(200).json(updatedPost);
   }
 
